@@ -22,18 +22,9 @@
           - yum-utils
         state: present
     
-    - name: Add Docker CE Repository
-      shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-      args:
-        creates: /etc/yum.repos.d/docker-ce.repo
-
-    - name: Install Docker Components
+    - name: Install Docker from the Amazon Linux Extras repository
       yum:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-          - docker-compose
+        name: docker
         state: present
 
     - name: Add ec2-user to the Docker group
