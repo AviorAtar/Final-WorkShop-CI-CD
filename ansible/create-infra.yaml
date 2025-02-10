@@ -61,4 +61,16 @@
       docker_login:
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
-      
+
+    - name: Push Docker image to DockerHub
+      docker_image:
+        name: my-app
+        tag: latest
+        push: yes
+
+    - name: Run Docker container from the built image
+      docker_container:
+        name: my-app-container
+        image: my-app:latest
+        state: started
+        restart_policy: always
