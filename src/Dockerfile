@@ -6,7 +6,7 @@ COPY . /app
 
 RUN pip install flask
 
-EXPOSE 5000
+EXPOSE 80:80
 
 ENV NAME World
 
