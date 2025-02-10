@@ -57,6 +57,14 @@
       become: true
       command: docker build -t my-app:latest /home/ec2-user/app/src
     
+    - name: Debug docker username
+      debug:
+        msg: "Docker Username: {{ docker_username }}"
+
+    - name: Debug docker password
+      debug:
+        msg: "Docker Password: {{ docker_password }}"
+        
     - name: Push Docker image to DockerHub
       docker_image:
         name: "{{ docker_username }}/my-app"
