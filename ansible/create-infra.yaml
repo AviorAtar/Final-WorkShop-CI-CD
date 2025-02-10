@@ -51,6 +51,7 @@
       docker_image:
         build:
           path: /home/ec2-user/app
+          dockerfile: Dockerfile
         name: my-app
         tag: latest
 
