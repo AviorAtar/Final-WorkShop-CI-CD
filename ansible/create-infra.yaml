@@ -6,6 +6,7 @@
     - group_vars/env
     - group_vars/colman.env
     - group_vars/docker.env
+    - secrets.yml
 
   tasks:
     - name: Install epel-release package
