@@ -56,30 +56,19 @@
     - name: Build Docker image with sudo
       become: true
       command: docker build -t my-app:latest /home/ec2-user/app/src
-    
-    # - name: Debug docker username
-    #   debug:
-    #     msg: "Docker Username: {{ docker_username }}"
 
-    # - name: Debug docker password
-    #   debug:
-    #     msg: "Docker Password: {{ docker_password }}"
-
-    # Login to DockerHub
     - name: Login to DockerHub
       docker_login:
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
-        registry: "https://index.docker.io/v1/"
-
-    # Push Docker image to DockerHub
+        
     - name: Push Docker image to DockerHub
       docker_image:
         name: "{{ docker_username }}/my-app"
         tag: latest
         push: yes
-        source: local  # Use the local image that was built previously
-
+        source: local  
+      
     # - name: Start Docker container
     #   docker_container:
     #     name: your-app
