@@ -27,6 +27,12 @@
         name: docker
         state: present
 
+    - name: Add ec2-user to the Docker group
+      user:
+        name: ec2-user
+        groups: docker 
+        append: yes
+
     - name: Start Docker service
       service:
         name: docker
