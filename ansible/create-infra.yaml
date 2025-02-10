@@ -50,8 +50,7 @@
     - name: Build Docker image
       docker_image:
         build:
-          path: /home/ec2-user/app/src/dockerfile
-        name: my-app
+          path: /home/ec2-user/app/src
         tag: latest
 
 
