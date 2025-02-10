@@ -57,11 +57,6 @@
       become: true
       command: docker build -t my-app:latest /home/ec2-user/app/src
     
-     - name: Set DOCKER_HOST environment variable
-      set_fact:
-        ansible_environment:
-          DOCKER_HOST: unix:///var/run/docker.sock
-          
     - name: Login to DockerHub
       docker_login:
         username: "{{ docker_username }}"
