@@ -8,20 +8,11 @@
     - group_vars/docker.env
 
   tasks:
-    - name: Install amazon-linux-extras
-      yum:
-        name: amazon-linux-extras
-        state: present
-
-    - name: Enable epel on Amazon Linux 2
-      shell: amazon-linux-extras enable epel
-      args:
-        creates: /etc/yum.repos.d/epel.repo
-
     - name: Install epel-release package
       yum:
         name: epel-release
         state: present
+      when: ansible_facts['distribution'] == 'Amazon' and ansible_facts['distribution_version'] == '2'
 
     - name: Install git, python-pip, and yum-utils
       yum:
