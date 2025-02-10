@@ -22,9 +22,21 @@
           - yum-utils
         state: present
     
-    - name: Install Docker from the Amazon Linux Extras repository
+    - name: Add Docker CE repository
       yum:
-        name: docker
+        name: 
+          - yum-utils
+        state: present
+      command: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+      become: true
+
+    - name: Install Docker CE, Docker CLI, containerd, and Docker Compose
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose
         state: present
 
     - name: Add ec2-user to the Docker group
@@ -53,25 +65,17 @@
         dest: /home/ec2-user/app
         version: main
 
-    # - name: Build Docker image with sudo
-    #   become: true
-    #   command: docker build -t my-app:latest /home/ec2-user/app/src
+    - name: Build Docker image with sudo
+      become: true
+      command: docker build -t my-app:latest /home/ec2-user/app/src
     
-    # - name: Login to DockerHub
-    #   docker_login:
-    #     username: "{{ docker_username }}"
-    #     password: "{{ docker_password }}"
-      
-    - name: Build and Push Docker Image
+    - name: Login to DockerHub
+      docker_login:
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
+
+    - name: Push Docker image to DockerHub
       docker_image:
-        build:
-          path: /home/ec2-user/app
-        name: avioratar/app
+        name: my-app
         tag: latest
         push: yes
-        source: build
-
-    - name: Start Docker Compose
-      docker_compose:
-        project_src: /home/ec2-user/app
-        state: present
