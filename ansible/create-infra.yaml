@@ -65,10 +65,6 @@
       register: docker_login_result
       ignore_errors: yes
 
-    - name: Debug Docker login
-      debug:
-        var: docker_login_result
-      when: docker_login_result.failed
     - name: Push Docker image to DockerHub
       docker_image:
         name: "{{ docker_username }}/my-app"
@@ -76,11 +72,11 @@
         push: yes
         source: local  
       
-    # - name: Start Docker container
-    #   docker_container:
-    #     name: your-app
-    #     image: your-dockerhub-username/your-app:latest
-    #     state: started
-    #     restart_policy: always
-    #     ports:
-    #       - "5000:5000"
+    - name: Start Docker container
+      docker_container:
+        name: your-app
+        image: your-dockerhub-username/your-app:latest
+        state: started
+        restart_policy: always
+        ports:
+          - "5000:5000"
