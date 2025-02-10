@@ -62,7 +62,13 @@
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
       become: yes
-        
+      register: docker_login_result
+      ignore_errors: yes
+
+    - name: Debug Docker login
+      debug:
+        var: docker_login_result
+      when: docker_login_result.failed
     - name: Push Docker image to DockerHub
       docker_image:
         name: "{{ docker_username }}/my-app"
