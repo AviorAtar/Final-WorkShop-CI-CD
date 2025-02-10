@@ -64,7 +64,7 @@
     - name: Debug docker password
       debug:
         msg: "Docker Password: {{ docker_password }}"
-        
+
     - name: Push Docker image to DockerHub
       docker_image:
         name: "{{ docker_username }}/my-app"
@@ -78,6 +78,7 @@
         name: avioratar/my-app
         tag: latest
         push: yes
+        source: build
 
     # - name: Start Docker container
     #   docker_container:
