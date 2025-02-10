@@ -54,11 +54,12 @@
         version: main
 
     - name: Build Docker image
+      become: true
       docker_image:
+        name: my-app
+        tag: latest
         build:
           path: /home/ec2-user/app/src
-        tag: latest
-
 
     # - name: Push Docker image to DockerHub
     #   docker_image:
