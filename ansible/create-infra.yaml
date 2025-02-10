@@ -62,6 +62,8 @@
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
         docker_host: unix:///var/run/docker.sock
+      environment:
+        DOCKER_HOST: unix:///var/run/docker.sock
 
     - name: Push Docker image to DockerHub
       docker_image:
