@@ -1,4 +1,3 @@
----
 - name: Setup web server
   hosts: deploy_server
   become: true
@@ -9,6 +8,16 @@
     - group_vars/docker.env
 
   tasks:
+    - name: Install amazon-linux-extras
+      yum:
+        name: amazon-linux-extras
+        state: present
+
+    - name: Enable epel on Amazon Linux 2
+      shell: amazon-linux-extras enable epel
+      args:
+        creates: /etc/yum.repos.d/epel.repo
+
     - name: Install epel-release package
       yum:
         name: epel-release
@@ -45,6 +54,7 @@
     - name: Copy SSH key to server
       copy:
         src: /home/ec2-user/.ssh/avior.pem
+        dest: /home/ec2-user/.ssh/avior.pem
         mode: '0600'
         owner: ec2-user
         group: ec2-user
