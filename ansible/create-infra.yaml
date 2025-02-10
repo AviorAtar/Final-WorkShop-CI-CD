@@ -53,13 +53,9 @@
         dest: /home/ec2-user/app
         version: main
 
-    - name: Build Docker image
+    - name: Build Docker image with sudo
       become: true
-      docker_image:
-        name: my-app
-        tag: latest
-        build:
-          path: /home/ec2-user/app/src
+      command: docker build -t my-app:latest /home/ec2-user/app
 
     # - name: Push Docker image to DockerHub
     #   docker_image:
