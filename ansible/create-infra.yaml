@@ -43,7 +43,28 @@
 
     - name: Clone the app repository
       git:
-        repo: 'https://github.com/kerenbirzon/Devops-CICD-Udi-Center-app.git'
+        repo: 'https://github.com/AviorAtar/Final-WorkShop-CI-CD.git'
+        dest: /home/ec2-user/app
         version: main
 
- 
+    - name: Build Docker image
+      docker_image:
+        build:
+          path: /home/ec2-user/app
+        name: my-app
+        tag: latest
+
+    # - name: Push Docker image to DockerHub
+    #   docker_image:
+    #     name: your-dockerhub-username/your-app
+    #     tag: latest
+    #     push: yes
+
+    # - name: Start Docker container
+    #   docker_container:
+    #     name: your-app
+    #     image: your-dockerhub-username/your-app:latest
+    #     state: started
+    #     restart_policy: always
+    #     ports:
+    #       - "5000:5000"
