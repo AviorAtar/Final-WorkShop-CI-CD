@@ -62,16 +62,3 @@
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
       
-    - name: Push Docker image to DockerHub
-      docker_image:
-        name: "docker.io/myusername/my-app:latest"
-        push: yes
-      become: true
-
-    - name: Start Docker application
-      docker_container:
-        name: my-app
-        image: "{{ docker_username }}/my-app:latest"
-        state: started
-        ports:
-          - "80:80"
