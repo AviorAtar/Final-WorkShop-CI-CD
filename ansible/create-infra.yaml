@@ -61,22 +61,18 @@
       docker_login:
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
-      become: yes
-      register: docker_login_result
-      ignore_errors: yes
 
     - name: Push Docker image to DockerHub
       docker_image:
         name: "{{ docker_username }}/my-app"
         tag: latest
         push: yes
-        source: local  
-      
-    - name: Start Docker container
+        source: local
+
+    - name: Start Docker application
       docker_container:
-        name: your-app
-        image: your-dockerhub-username/your-app:latest
+        name: my-app
+        image: "{{ docker_username }}/my-app:latest"
         state: started
-        restart_policy: always
         ports:
-          - "5000:5000"
+          - "80:80"
