@@ -36,8 +36,10 @@
     - name: Copy SSH key to server
       copy:
         src: /home/ec2-user/.ssh/avior.pem
+        dest: /home/ec2-user/.ssh/id_rsa 
         mode: '0600'
         owner: ec2-user
+        group: ec2-user
 
     - name: Clone the app repository
       git:
