@@ -1,6 +1,6 @@
 ---
 - name: Setup web server
-  hosts: adeploy_server
+  hosts: deploy_server
   become: true
   gather_facts: true
   vars_files:
