@@ -53,21 +53,51 @@
         dest: /home/ec2-user/app
         version: main
 
-    - name: Build Docker image with sudo
-      become: true
-      command: docker build -t my-app:latest /home/ec2-user/app/src
+- name: Build and Push Docker image to DockerHub
+  hosts: deploy-server
+  become: yes
+  vars:
+    docker_username: "{{ lookup('env', 'DOCKER_USERNAME') }}"
+    docker_password: "{{ lookup('env', 'DOCKER_PASSWORD') }}"
+    docker_image_name: "your_dockerhub_username/my-app"
+    docker_tag: "latest"
+    dockerfile_path: "/home/ec2-user/app" # Change this to your path where Dockerfile is located
 
-    - name: Login to DockerHub
+  tasks:
+    - name: Log in to DockerHub
       docker_login:
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
-        
+    
+    - name: Build Docker image
+      docker_image:
+        name: "{{ docker_image_name }}"
+        tag: "{{ docker_tag }}"
+        path: "{{ dockerfile_path }}"
+        state: present
+
     - name: Push Docker image to DockerHub
       docker_image:
-        name: "{{ docker_username }}/my-app"
-        tag: latest
+        name: "{{ docker_image_name }}"
+        tag: "{{ docker_tag }}"
         push: yes
-        source: local  
+        state: present
+
+    # - name: Build Docker image with sudo
+    #   become: true
+    #   command: docker build -t my-app:latest /home/ec2-user/app/src
+
+    # - name: Login to DockerHub
+    #   docker_login:
+    #     username: "{{ docker_username }}"
+    #     password: "{{ docker_password }}"
+        
+    # - name: Push Docker image to DockerHub
+    #   docker_image:
+    #     name: "{{ docker_username }}/my-app"
+    #     tag: latest
+    #     push: yes
+    #     source: local  
       
     # - name: Start Docker container
     #   docker_container:
