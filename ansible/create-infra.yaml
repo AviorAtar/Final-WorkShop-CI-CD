@@ -55,7 +55,7 @@
 
     - name: Build Docker image with sudo
       become: true
-      command: docker build -t my-app:latest /home/ec2-user/app
+      command: docker build -t my-app:latest /home/ec2-user/app/src
 
     # - name: Push Docker image to DockerHub
     #   docker_image:
