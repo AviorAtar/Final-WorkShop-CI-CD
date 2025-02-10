@@ -61,6 +61,7 @@
       docker_login:
         username: "{{ docker_username }}"
         password: "{{ docker_password }}"
+      become: yes
         
     - name: Push Docker image to DockerHub
       docker_image:
