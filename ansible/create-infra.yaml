@@ -57,8 +57,8 @@
       become: true
       command: docker build -t my-app:latest /home/ec2-user/app/src
     
-    - name: Login to DockerHub
-      docker_login:
-        username: "{{ docker_username }}"
-        password: "{{ docker_password }}"
+    # - name: Login to DockerHub
+    #   docker_login:
+    #     username: "{{ docker_username }}"
+    #     password: "{{ docker_password }}"
       
