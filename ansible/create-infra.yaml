@@ -1,0 +1,50 @@
+---
+- name: Setup web server
+  hosts: adeploy_server
+  become: true
+  gather_facts: true
+  vars_files:
+    - group_vars/env
+    - group_vars/colman.env
+    - group_vars/docker.env
+
+  tasks:
+    - name: Install epel-release package
+      yum:
+        name: epel-release
+        state: present
+
+    - name: Install git, python-pip, and yum-utils
+      yum:
+        name:
+          - git
+          - python-pip
+          - yum-utils
+        state: present
+
+    - name: Add Docker CE repository
+      shell: "yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo"
+      args:
+        creates: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker packages
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose
+        state: present
+
+    - name: Start Docker service
+      service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Copy SSH key to server
+      copy:
+        src: /home/ec2-user/.ssh/avior.pem
+        mode: '0600'
+        owner: ec2-user
+        group: ec2-user
