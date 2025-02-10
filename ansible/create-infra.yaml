@@ -53,12 +53,25 @@
         dest: /home/ec2-user/app
         version: main
 
-    - name: Build Docker image with sudo
-      become: true
-      command: docker build -t my-app:latest /home/ec2-user/app/src
+    # - name: Build Docker image with sudo
+    #   become: true
+    #   command: docker build -t my-app:latest /home/ec2-user/app/src
     
-    - name: Login to DockerHub
-      docker_login:
-        username: "{{ docker_username }}"
-        password: "{{ docker_password }}"
+    # - name: Login to DockerHub
+    #   docker_login:
+    #     username: "{{ docker_username }}"
+    #     password: "{{ docker_password }}"
       
+    - name: Build and Push Docker Image
+      docker_image:
+        build:
+          path: /home/ec2-user/app
+        name: avioratar/app
+        tag: latest
+        push: yes
+        source: build
+
+    - name: Start Docker Compose
+      docker_compose:
+        project_src: /home/ec2-user/app
+        state: present
