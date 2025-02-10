@@ -57,11 +57,13 @@
       become: true
       command: docker build -t my-app:latest /home/ec2-user/app/src
     
-    - name: Login to DockerHub
-      docker_login:
-        username: "{{ avioratar }}"  
-        password: "{{ &Q?h$x-AD5*k;A7 }}"  
-        login_url: "https://index.docker.io/v1/"
+    - name: Push Docker image to DockerHub
+      docker_image:
+        name: "{{ docker_username }}/my-app"
+        tag: latest
+        push: yes
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"
 
     - name: Push Docker image to DockerHub
       docker_image:
